@@ -9,6 +9,7 @@ Use case toturials
 Last changed: |date|
 
 .. contents::
+.. :local:
 
 .. note::
 
@@ -24,6 +25,7 @@ addresses of the instance. This toturial demonstrates how to change the network
 interface from dualStack to IPv6.
 
 .. TIP::
+
    **Set root password!**
 
    It is a good idea to set the root password prior to doing any network changes.
@@ -38,7 +40,7 @@ In the Dashboard:
       :figwidth: image
 
       Figure 1: Drop-down menu of the running instance (in Compute -> Instances). The first three options are shown. We will use all three options in this toturial.
- 
+
 2. Select the network to detach under "Port". In Figure 2, a dualStack network configuration that is currently used by the running VM instance, is selected for detachment.
 
    .. figure:: images/uc-if-2.png
@@ -46,7 +48,7 @@ In the Dashboard:
       :figwidth: image
 
       Figure 2: Selecting existing network to detach.
- 
+
 3. In the drop-down menu of your running instance, select "Attach Interface" (Figure 1).
 
 4. Select the new (suggested) network to attach. In Figure 3, a new IPv6 network is selected.
@@ -56,8 +58,9 @@ In the Dashboard:
       :figwidth: image
 
       Figure 3: Selecting new network to attach.
- 
+
 .. TIP::
+
    **Automatic removal of security groups**
 
    Note that all security groups that used the network that you detached were removed
@@ -225,7 +228,7 @@ RDP: Remote Desktop Protocol, SSH: Secure Shell, GUI: Graphical User Interface, 
 4. Install software
 
    .. code-block:: console
-      
+
       sudo apt update -y && sudo apt install -y xrdp openbox-lxde-session lxappearance lxterminal xarchiver mousepad shimmer-themes firefox
 
 5. First VDI login
@@ -265,11 +268,11 @@ RDP: Remote Desktop Protocol, SSH: Secure Shell, GUI: Graphical User Interface, 
       :figwidth: image
 
       Figure 5: Screenshot of the virtual DE with the GUI tools installed in this toturial.
- 
+
 .. rubric:: Footnotes
 
 .. [#f1] https://askubuntu.com/questions/1518705/lxde-panel-gets-cut-off-on-ubuntu-24-04
-   
+
 .. [#f2] https://sourceforge.net/p/lxde/bugs/968/
 
 .. [#f3] https://github.com/neutrinolabs/xrdp/issues/308
@@ -280,6 +283,7 @@ VirtualGL Linux DE - GNOME + TurboVNC (Terraform)
 This tutorial demonstrates how to deploy a ready-to-use Ubuntu 24.04 LTS VM with a GNOME desktop and TurboVNC remote access on NREC OpenStack, using the one-click deployment scripts from the `nrec-oneclick-vps <https://github.com/norcams/nrec-oneclick-vps/>`_ repository.
 
 .. TIP::
+
    **Prerequisites**
 
    - Terraform >= 1.5
@@ -311,6 +315,7 @@ This tutorial demonstrates how to deploy a ready-to-use Ubuntu 24.04 LTS VM with
    The ``OS_AUTH_URL`` is pre-set to ``https://identity.api.bgo.nrec.no:5000/v3``.
 
 .. TIP::
+
    **Windows**
 
    Windows users: copy ``env.ps1.template`` to ``env.ps1`` and set the same OpenStack credentials there. Run ``deploy.ps1`` instead of ``deploy.sh``.
@@ -357,6 +362,7 @@ This tutorial demonstrates how to deploy a ready-to-use Ubuntu 24.04 LTS VM with
    Then connect with TurboVNC to ``localhost:55901``, using the password from ``/home/ubuntu/.vnc-passwd``.
 
    .. TIP::
+
       **Desktop session**
 
       The default session starts with GNOME Flashback (Metacity). For the full modern GNOME session:
@@ -379,6 +385,7 @@ Fast Qwen3.6 inference on L40s flavor for agentic tasks
 This tutorial demonstrates how to run the `Qwen3.6-35B-A3B <https://unsloth.ai/docs/models/qwen3.6#mtp-qwen3.6-35b-a3b>`_ LLM with decent inference speed on an NREC L40s instance using llama.cpp and multi-token prediction (MTP).
 
 .. TIP::
+
    **Instance requirements**
 
    - Flavor: ``gr1.L40S.24g.4xlarge`` (24 GB NVIDIA L40S vGPU)
@@ -460,6 +467,7 @@ This tutorial demonstrates how to run the `Qwen3.6-35B-A3B <https://unsloth.ai/d
    To use the CLI instead of the server, run ``llama-cli`` with the same arguments (omit ``--port``).
 
    .. NOTE::
+
       The ``--spec-type draft-mtp --spec-draft-n-max 2`` flags cause a CUDA kernel
       crash with very short inputs (1-2 characters) in ``llama-cli``. These flags are
       safe to use with ``llama-server`` (which handles longer context), but should be
@@ -483,6 +491,7 @@ Fast Qwen3.6 inference on L40s flavor for agentic tasks (Ubuntu 26.04 LTS)
 This is an adaptation of the `Fast Qwen3.6 inference on L40s flavor for agentic tasks`_ tutorial for Ubuntu 26.04 LTS (Resolute Raccoon).
 
 .. TIP::
+
    **Instance requirements**
 
    - Flavor: ``gr1.L40S.24g.4xlarge`` (24 GB NVIDIA L40S vGPU)
@@ -504,6 +513,7 @@ This is an adaptation of the `Fast Qwen3.6 inference on L40s flavor for agentic 
       sudo timedatectl set-timezone Europe/Oslo
 
    .. NOTE::
+
       **Two pre-built fixes are required on Ubuntu 26.04 LTS.**
 
       **NVML version mismatch:** The vGPU image ships with kernel module ``580.159.03``,
@@ -601,6 +611,7 @@ This is an adaptation of the `Fast Qwen3.6 inference on L40s flavor for agentic 
    To use the CLI instead of the server, run ``llama-cli`` with the same arguments (omit ``--port``).
 
    .. NOTE::
+
       The ``--spec-type draft-mtp --spec-draft-n-max 2`` flags cause a CUDA kernel
       crash with very short inputs (1-2 characters) in ``llama-cli``. These flags are
       safe to use with ``llama-server`` (which handles longer context), but should be
@@ -623,3 +634,259 @@ This is an adaptation of the `Fast Qwen3.6 inference on L40s flavor for agentic 
       # endpoint: http://127.0.0.1:8001/v1
 
    Stop the server with ``Ctrl+C``.
+
+Hermes Agent with XRDP on NREC
+-------------------------------
+
+This tutorial demonstrates how to deploy a full virtual desktop infrastructure (VDI) workflow on NREC OpenStack: provision a GNOME VM with XRDP remote access, then install and run Hermes Agent inside the virtual desktop. The workflow uses the UiO-managed VDI as a management hub to deploy and manage OpenStack resources.
+
+.. TIP::
+
+   **Prerequisites**
+
+   - A Feide-connected university login (e.g. ``@uio.no``, ``@uib.no``)
+   - Access to the Omnissa Horizon client
+   - RDP client installed on your local machine (Windows Remote Desktop, Remmina on Linux, Microsoft Remote Desktop on macOS)
+   - SSH client
+   - Git and Terraform
+
+1. Sign up for NREC access
+
+   Log in to `access.nrec.no <https://access.nrec.no>`_ with your Feide credentials. This will automatically create a demo project sufficient for running the nrec-oneclick-vps provisioning. If you need more resources, submit a request at `request.nrec.no <https://request.nrec.no>`_.
+
+   On the same page, click **API password** to generate an NREC OpenStack API password. Save it securely — avoid storing it in multiple note-taking apps or third-party cloud services.
+
+.. TIP::
+
+   **API password scope**
+
+   The API password is shared across all NREC regions. You only need to generate it once.
+
+2. Verify dashboard access
+
+   Log in to `dashboard.nrec.no <https://dashboard.nrec.no>`_ using your Feide credentials. You should see your project quota and resources.
+
+3. Connect to the UiO Linux Desktop (VDI)
+
+   Open the **Omnissa Horizon** client and connect to server ``view.uio.no``. Log in with your UiO Microsoft 2FA credentials, then select **UiO Linux Desktop**.
+
+   Open **Activities → Terminal**.
+
+4. Prepare the Python environment
+
+   .. code-block:: console
+
+      python3 -m venv nrec-venv
+      source nrec-venv/bin/activate
+      which python
+      which pip
+
+   This creates a local Python virtual environment in your shared home directory — the same directory you can access at ``login.uio.no``.
+
+   .. code-block:: console
+
+      pip install terraform-install python-openstackclient python-glanceclient
+
+5. Clone the deployment repository
+
+   .. code-block:: console
+
+      git clone https://github.com/norcams/nrec-oneclick-vps.git
+      cd nrec-oneclick-vps
+      git checkout xrdp
+
+6. Configure environment variables
+
+   .. code-block:: console
+
+      cp env.sh.template env.sh
+      nano env.sh
+
+   Fill in the following fields:
+
+   - ``OS_USERNAME``: your username (e.g. ``username@uio.no``)
+   - ``OS_PASSWORD``: the API password from step 1
+   - ``OS_PROJECT_NAME``: your project name (e.g. ``DEMO-username.uio.no``)
+   - ``OS_REGION_NAME``: your region (e.g. ``osl`` or ``bgo``)
+
+   Save and exit with ``Ctrl+X``, then ``Y``, then ``Enter``.
+
+.. TIP::
+
+   **Flavor selection**
+
+   - Using the **DEMO** project: use a small flavor such as ``c1.medium``
+   - Using a **PRIVATE** project (granted via request.nrec.no): use the default ``c1.xlarge``
+
+   To change the flavor, edit ``deploy.sh`` and update the ``flavor`` variable before running.
+
+7. Deploy the VM
+
+   .. code-block:: console
+
+      ./deploy.sh
+
+   While the script runs, you can monitor progress in the dashboard under **Compute → Instances → vps-* → Log and Console**.
+
+   You can also get the the console log using the openstack cli client just installed:
+
+   .. code-block:: console
+
+      openstack console log show vps-* | less +G
+
+   Replace the ``*`` with the randomly generated instance ID printed by the script (e.g. ``vps-d2a440``).
+
+8. Connect via RDP
+
+   SSH into the VM with a local port forwarded to the XRDP port. This can be done either directly from your local machine (private or UiO-managed, or from UiO-managed VDI). The autogenerated ssh security group needs to be modified to allow additional SSH logins from machines with public IP other than the specific VDI host used to deploying the VPS. Here, login is demonstrated from the same machine as where deploy were run:
+
+   .. code-block:: console
+
+      ssh -L 33389:localhost:3389 -i keys/vps-<deployment-id>.pem ubuntu@<VM_IP>
+
+   If you do not want to work with the autogenerated (admin) cloud password at ~/.admin-password, set the password for the cloud user (will be requested by the RDP client):
+
+   .. code-block:: console
+
+      sudo passwd ubuntu
+
+   Open your local RDP client and connect to ``localhost:33389``. On Windows, use the built-in **Windows Remote Desktop**. On Linux, use **Remmina**. On macOS, use **Windows App**. Log in as ``ubuntu`` with the cloud user password.
+
+.. TIP::
+
+   **Note**
+
+   - If you have a non-US keyboard, add your layout via **Settings → Keyboard → Add Input Source** (e.g. Norwegian or Norwegian (Macintosh)).
+   - On high-resolution displays, increase scaling: **System Settings → Displays → Scale: 200% → Apply**.
+   - You can set dark mode in the Settings app at Appearance -> Style -> Dark
+
+9. Install Hermes Agent
+
+   Right-click on the desktop and select **Open Terminal**. It is conventient to also open **System Monitor** to check available resources:
+
+   .. code-block:: console
+
+      gnome-system-monitor &
+
+   Launch Google Chrome:
+
+   .. code-block:: console
+
+      google-chrome &
+
+   You do not need to sign into Chrome. Re-open Chrome to get greeted with an option to select a default search engine (e.g. Brave).
+
+   Search for **Hermes Agent** and visit the website. Copy the Linux install command, make sure system is updated and install:
+
+   .. code-block:: console
+
+      sudo apt update
+      curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+
+   If prompted, run:
+
+   .. code-block:: console
+
+      source ~/.bashrc
+
+   Then install Hermes desktop:
+
+   .. code-block:: console
+
+      hermes desktop
+
+10. Manage OpenStack from the UiO VDI
+
+    Open a second terminal on the UiO VDI (not inside the NREC VM) to manage your OpenStack resources:
+
+    .. code-block:: console
+
+       source nrec-venv/bin/activate
+       source nrec-oneclick-vps/env.sh
+
+    List servers:
+
+    .. code-block:: console
+
+       openstack server list
+
+    The regular backup method for VMs in NREC (shutoff or running) is taking a snapshot:
+
+    .. code-block:: console
+
+       openstack server image create --name vps-snapshot-1 --wait vps-*
+
+    Note that this will not backup the volume attached to the VM. There are separate openstack commands to take backup of volumes that are not yet fully implemented in NREC. The working method as of today is to create an image snapshot of the volume, then download the snapshot with glance. The volume can then be mounted to a linux machine using the nbd (network block device) driver.
+
+    Download the snapshot to the UiO VDI:
+
+    .. code-block:: console
+
+       glance image-download --file vps-snapshot-1.qcow2 --progress $(openstack image show -f value -c id vps-*)
+
+    Transfer the file to your local machine through a login jump host:
+
+    .. code-block:: console
+
+       rsync --progress username@login.uio.no vps-snapshot.qcow2 .
+
+    The snapshot can be run locally (e.g. in VirtualBox) by converting from qcow2 to vmdk:
+
+    .. code-block:: console
+
+       qemu-img convert -p -f qcow2 -O vmdk vps-snapshot-1.qcow2 vps-snapshot-1.vmdk
+
+    A VirtualBox VM created from this disk can use these specs: 16 GB RAM, 8 vCPU, EFI enabled, using the existing disk.
+
+11. Clean up
+
+    Destroy all NREC resources:
+
+    .. code-block:: console
+
+       terraform destroy
+
+.. rubric:: Tips
+
+**Direct RDP access from your local machine**
+
+For better desktop performance, you can connect directly to the NREC VM from your local machine:
+
+1. Allow SSH access from your public IP. In the dashboard, go to **Network → Security Groups → vps-***, click **Manage Rules**, then **Add Rule**: SSH, CIDR ``<your public IPv4>/32`` or ``<your public IPv6>/128``.
+
+2. Add your SSH public key (from ``~/.ssh``) to ``~/.ssh/authorized_keys`` in the NREC VM.
+
+3. Connect with an SSH + RDP tunnel (note that here the generated vps private key (-i ...) is not used):
+
+   .. code-block:: console
+
+      ssh -L 33389:localhost:3389 ubuntu@<VM_IPv4_or_IPv6>
+
+   Then connect your local RDP client to ``localhost:33389``.
+
+**Clipboard integration**
+
+If you use the full Omnissa Horizon client with clipboard enabled, you can copy/paste between your local system and the VDI clipboard in UiO Linux VDI terminal directly:
+
+.. code-block:: console
+
+   # Copy from VM to local clipboard
+   echo "text" | xclip -in -selection clipboard
+
+   # Paste from local clipboard into VM
+   xclip -out -selection clipboard
+
+If text is not copying correctly, make sure you click into the target window before performing copy/paste actions. This is an additional way for copy paste than the regular ctrl shortcuts and mouse clicks. In Linux terminals, use ``Ctrl+Shift+C`` (copy) and ``Ctrl+Shift+V`` (paste).
+
+**Persistent tmux sessions**
+
+Create persistent tmux sessions in the UiO VDI or NREC VM:
+
+.. code-block:: console
+
+   tmux new-session -t persistent-vdi-session-1
+   ctrl + b, d (will detach current session)
+   tmux attach-session -t persistent-vdi-session-1
+
+A way to overcome the 1-week reboot cycle in UiO VDI, is to save tmux sessions with the Tmux Resurrect plugin.
+
